@@ -9,9 +9,7 @@ var PhilUtil = {
     } else if (str.match(/^.+,.+$/)) {
       return PhilUtil.parseArray(str);
     }
-    var arr = [];
-    arr.push(str);
-    return arr;
+    return [str];
   },
   parseRange: function(str) {
     var endpoints = str.split('..'),
@@ -24,7 +22,7 @@ var PhilUtil = {
   parseArray: function(str) {
     return str.split(',');
   },
-  loopAmount: function(num) {
+  createArrayTo: function(num) {
     return PhilUtil.parseRange("1.." + Phil.pick(num));
   },
   wrap: function(tag, content) {
@@ -63,12 +61,12 @@ var Phil = {
     return faker.lorem.words(Phil.pick(num)).join(' ');
   },
   paragraphs: function(num) {
-    return PhilUtil.loopAmount(num).map(function() {
+    return PhilUtil.createArrayTo(num).map(function() {
       return PhilUtil.wrap('p', faker.lorem.paragraph());
     }).join('');
   },
-  tag: function(tag, words) {
-    return PhilUtil.wrap(tag, Phil.words(words || "5..15"));
+  tag: function(tag, num_words) {
+    return PhilUtil.wrap(tag, Phil.words(num_words || "5..15"));
   },
   markup: function(tags) {
     return tags.split(' ').map(function(tag) {

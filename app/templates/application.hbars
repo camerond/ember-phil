@@ -21,8 +21,8 @@
 %h3 phil "finance.amount" "5" "30..100"
 %p= phil "finance.amount" "5" "30..100"
 
-%h3 phil "tag" "h5" "1..30"
-%p= phil "tag" "h5" "1..30"
+%h3 phil "tag" "bold" "1..30"
+%p= phil "tag" "bold" "1..30"
 
 %h3 phil "markup" "h1 h3 blockquote p p"
 %p= phil "markup" "h1 h3 blockquote p p"
