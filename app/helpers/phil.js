@@ -3,6 +3,7 @@ import faker from 'faker';
 
 var PhilUtil = {
   parseValue: function(str) {
+    if (typeof str === 'object') { return; }
     str = "" + str;
     if (str.match(/^\d+\.\.\d+$/)) {
       return PhilUtil.parseRange(str);
@@ -44,18 +45,18 @@ var PhilUtil = {
     return faker[methods[0]][methods[1]] || false;
   },
   parseArguments: function(args) {
-    var output = [];
-    for (var i=1; i < args.length-1; i++) {
-      output.push(Phil.pick(args[i]));
-    }
-    return output;
+    var argArray = [].slice.call(args);
+    return argArray.map(Phil.pick).filter(function(a) {
+      return !!a;
+    });
   }
 };
 
 var Phil = {
   pick: function(str) {
     var arr = PhilUtil.parseValue(str);
-    return arr[Math.floor(Math.random() * arr.length)];
+    if (!arr) { return; }
+    return +arr[Math.floor(Math.random() * arr.length)];
   },
   words: function(num) {
     return faker.lorem.words(Phil.pick(num)).join(' ');
