@@ -3,14 +3,17 @@ import faker from 'faker';
 
 var PhilUtil = {
   parseValue: function(str) {
-    if (typeof str === 'object') { return; }
+    if (typeof str === 'object') { return [str]; }
     str = "" + str;
     if (str.match(/^\d+\.\.\d+$/)) {
       return PhilUtil.parseRange(str);
     } else if (str.match(/^.+,.+$/)) {
       return PhilUtil.parseArray(str);
     }
-    return [str];
+    if (isNaN(str)) {
+      return [str];
+    }
+    return [+str];
   },
   parseRange: function(str) {
     var endpoints = str.split('..'),
@@ -21,7 +24,7 @@ var PhilUtil = {
     return arr;
   },
   parseArray: function(str) {
-    return str.split(',');
+    return str.split(',').map(function(str) { return str.trim(); });
   },
   createArrayTo: function(num) {
     return PhilUtil.parseRange("1.." + Phil.pick(num));
@@ -29,15 +32,21 @@ var PhilUtil = {
   wrap: function(tag, content) {
     return "<" + tag + ">" + content + "</" + tag + ">";
   },
-  generateTag: function(tag) {
+  generateTag: function(tag, numWords) {
+    var wordCount = numWords || "3..15";
     switch (tag) {
       case 'p':
         return Phil.paragraphs(1);
+      case 'ul':
+        var listItems = PhilUtil.createArrayTo(Phil.pick("1..5")).map(function() {
+          return PhilUtil.wrap('li', Phil.words(wordCount));
+        }).join('');
+        return PhilUtil.wrap("ul", listItems);
       case 'blockquote':
         var paragraphs = Phil.paragraphs(Phil.pick("1..3"));
         return (PhilUtil.wrap('blockquote', paragraphs));
       default:
-        return (PhilUtil.wrap(tag, Phil.words("3..15")));
+        return PhilUtil.wrap(tag, Phil.words(wordCount));
     }
   },
   getFakerMethod: function(name) {
@@ -45,10 +54,11 @@ var PhilUtil = {
     return faker[methods[0]][methods[1]] || false;
   },
   parseArguments: function(args) {
-    var argArray = [].slice.call(args);
-    return argArray.map(Phil.pick).filter(function(a) {
+    var argArray = [].slice.call(args, 1);
+    var foo = argArray.map(Phil.pick).filter(function(a) {
       return !!a;
     });
+    return foo;
   }
 };
 
@@ -56,7 +66,7 @@ var Phil = {
   pick: function(str) {
     var arr = PhilUtil.parseValue(str);
     if (!arr) { return; }
-    return +arr[Math.floor(Math.random() * arr.length)];
+    return arr[Math.floor(Math.random() * arr.length)];
   },
   words: function(num) {
     return faker.lorem.words(Phil.pick(num)).join(' ');
@@ -67,12 +77,12 @@ var Phil = {
     }).join('');
   },
   tag: function(tag, num_words) {
-    return PhilUtil.wrap(tag, Phil.words(num_words || "5..15"));
+    return PhilUtil.generateTag(tag, num_words);
   },
   markup: function(tags) {
     return tags.split(' ').map(function(tag) {
       return PhilUtil.generateTag(tag);
-    }).join(' ');
+    }).join('');
   }
 };
 
