@@ -36,7 +36,7 @@ var PhilUtil = {
     var wordCount = numWords || "3..15";
     switch (tag) {
       case 'p':
-        return Phil.paragraphs(1);
+        return PhilUtil.wrap('p', faker.lorem.paragraph());
       case 'ul':
         var listItems = PhilUtil.createArrayTo(Phil.pick("1..5")).map(function() {
           return PhilUtil.wrap('li', Phil.words(wordCount));
@@ -73,7 +73,7 @@ var Phil = {
   },
   paragraphs: function(num) {
     return PhilUtil.createArrayTo(num).map(function() {
-      return PhilUtil.wrap('p', faker.lorem.paragraph());
+      return PhilUtil.generateTag('p');
     }).join('');
   },
   tag: function(tag, num_words) {
