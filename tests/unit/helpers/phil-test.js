@@ -71,6 +71,12 @@ test('passing through method to Faker with integer arguments', function(assert) 
   assert.isWithin(amount, 2, 3);
 });
 
+test('passing through method to Faker with range arguments', function(assert) {
+  var amount = phil('finance.amount', '5..10', '30..35');
+
+  assert.isWithin(amount, 5, 35);
+});
+
 test('passing through method to Faker with string arguments', function(assert) {
   var phone = phil('phone.phoneNumber', '###-####');
 

@@ -55,10 +55,13 @@ var PhilUtil = {
   },
   parseArguments: function(args) {
     var argArray = [].slice.call(args, 1);
-    var foo = argArray.map(Phil.pick).filter(function(a) {
+    if (argArray[argArray.length-1].data) {
+      argArray.pop();
+    }
+    var fakerArgs = argArray.map(Phil.pick).filter(function(a) {
       return !!a;
     });
-    return foo;
+    return fakerArgs;
   }
 };
 
