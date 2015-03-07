@@ -3,8 +3,8 @@
 %h3 phil.pick "5..10"
 %p= phil "pick" "5..10"
 
-%h3 phil "pick" "foo, bar baz"
-%p= phil "pick" "foo, bar baz"
+%h3 phil "pick" "foo, bar, baz"
+%p= phil "pick" "foo, bar, baz"
 
 %h3 phil "words" "5"
 %p= phil "words" "5"
@@ -21,8 +21,8 @@
 %h3 phil "finance.amount" "5" "30..100"
 %p= phil "finance.amount" "5" "30..100"
 
-%h3 phil "tag" "bold" "1..30"
-%p= phil "tag" "bold" "1..30"
+%h3 phil "tag" "strong" "1..30"
+%p= phil "tag" "strong" "1..30"
 
 %h3 phil "markup" "h1 h3 blockquote p p"
 %p= phil "markup" "h1 h3 blockquote p p"
