@@ -8,7 +8,7 @@ var test = qunit.test,
 module('PhilHelper');
 
 assert.isInArray = function(val, array) {
-  this.push(!!(array.find(val)), val, array, val + ' is in ' + array.join(','));
+  this.push((array.indexOf(val) !== -1), val, array, val + ' is in ' + array.join(','));
 };
 
 assert.isWithin = function(val, min, max) {
@@ -20,6 +20,7 @@ assert.isWithin = function(val, min, max) {
 test('pick', function(assert) {
   var testArray = ['foo', 'bar', 'baz'];
   var result = phil('pick', testArray.join(','));
+  assert.isInArray(result, testArray);
 
   var testRange = phil('pick', '1..100');
   assert.isWithin(testRange, 1, 100);
