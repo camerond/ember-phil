@@ -25,4 +25,4 @@
 %p= phil "tag" "strong" "1..30"
 
 %h3 phil "markup" "h1 h3 blockquote p p"
-%p= phil "markup" "h1 h3 blockquote p p"
+= phil "markup" "h1 h3 blockquote p p"
